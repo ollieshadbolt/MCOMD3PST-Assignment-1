@@ -1,0 +1,88 @@
+#!/bin/bash
+
+chkargs ()
+{
+        if [ $1 -ne $2 ]; then
+                >&2 echo Invalid number of arguments
+                exit 1
+        fi
+}
+
+log ()
+{
+        dir=logs
+        mkdir -p $dir && echo $( date +"[%d/%m/%Y %T]" ) $1 >> $dir/$( date +"%F" ).txt
+}
+
+create ()
+{
+        if [ $# -ne 4 ]; then
+                log "Invalid number of fields"
+                exit 1
+        else
+                sleep 30
+                i=1
+                while [ $i -gt 0 ]; do
+                        user=$1$i
+                        dir=users/$user
+                        mkdir -p users
+                        if mkdir $dir 2> /dev/null; then
+                                mkdir -p $dir/Pictures
+                                mkdir -p $dir/Videos
+                                docs=$dir/Documents
+                                mkdir -p $docs
+                                welcome=$docs/Welcome.txt
+                                echo Welcome to the business, $1. > $welcome
+                                echo We are pleased to have you working in the $3 department. >> $welcome
+                                echo If you have any questions, please speak to your manager, $4 >> $welcome
+                                echo Your email address is $2 >> $welcome
+                                sed -i -e 's/\r$//' $welcome
+                                log "$user created"
+                                exit 0
+                        else
+                                i=$(( $i+1 ))
+                                log "$user already exists"
+                        fi
+                done
+                log "Creation failed"
+                exit 1
+        fi
+}
+
+list ()
+{
+        pgrep -f -a $0
+}
+
+case $( echo $1 | tr '[:upper:]' '[:lower:]' ) in
+        import)
+                chkargs $# 2
+                sed "1d" $2 | while IFS=, read -r name email department manager; do
+                        create $name $email $department $manager $overflow &
+                done
+                ;;
+        list)
+                chkargs $# 1
+                list
+                ;;
+        export)
+                chkargs $# 1
+                list > export.txt
+                ;;
+        kill)
+                chkargs $# 1
+                log "Kill called"
+                pgrep -f $0 | xargs kill
+                ;;
+        *)
+                >&2 echo "Import file:"
+                >&2 echo "       userman import [filename]"
+                >&2 echo "List processes:"
+                >&2 echo "       userman list"
+                >&2 echo "Export processes to \"export.txt\":"
+                >&2 echo "       userman export"
+                >&2 echo "Kill processes:"
+                >&2 echo "       userman kill"
+                exit 1
+                ;;
+esac

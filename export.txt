@@ -1,0 +1,21 @@
+6987 /bin/bash ./userman import users.csv
+6988 /bin/bash ./userman import users.csv
+6989 /bin/bash ./userman import users.csv
+6991 /bin/bash ./userman import users.csv
+6992 /bin/bash ./userman import users.csv
+6994 /bin/bash ./userman import users.csv
+6997 /bin/bash ./userman import users.csv
+6999 /bin/bash ./userman import users.csv
+7002 /bin/bash ./userman import users.csv
+7003 /bin/bash ./userman import users.csv
+7005 /bin/bash ./userman import users.csv
+7007 /bin/bash ./userman import users.csv
+7010 /bin/bash ./userman import users.csv
+7011 /bin/bash ./userman import users.csv
+7013 /bin/bash ./userman import users.csv
+7015 /bin/bash ./userman import users.csv
+7017 /bin/bash ./userman import users.csv
+7019 /bin/bash ./userman import users.csv
+7021 /bin/bash ./userman import users.csv
+7024 /bin/bash ./userman import users.csv
+7028 /bin/bash ./userman export
